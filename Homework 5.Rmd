@@ -18,15 +18,28 @@ knitr::opts_chunk$set(echo = TRUE)
 choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
 head(choco)
 ```
-Question set 1
-#1
+## Question set 1
+###1 What is the overall number of chocolate bars rated?
 There are 1,852 chocolate bars rated
+```{r}
+dim(choco)
+```
 
-#2
+
+
+### 2 How does the number of ratings depend on the year? Draw a bar chart of the number of reports.
 ```{r}
 library(ggplot2)
 ggplot(choco, aes(x=Review.Date))+geom_bar(aes(weight=Rating))
 ```
-Question set 2
+## Question set 2
 
-#1.
+### How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
+
+```{r}
+ggplot(choco, aes(x=Rating)) + geom_histogram(binwidth=.25)
+```
+
+### Do ratings depend on the cocoa percentage of a chocolate bar?
+
+###How do ratings compare across different company locations? Focus on the three locations with the most ratings:
