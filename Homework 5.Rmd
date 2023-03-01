@@ -1,0 +1,32 @@
+---
+title: "Homework 5"
+author: "Nathan Catalano and Brett Simmons"
+date: "2023-03-01"
+output: html_document
+---
+
+Group Members: Nathan Catalano and Brett Simmons
+
+Github repository: https://github.com/BrettSimmons/Lab2
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
+head(choco)
+```
+Question set 1
+#1
+There are 1,852 chocolate bars rated
+
+#2
+```{r}
+library(ggplot2)
+ggplot(choco, aes(x=Review.Date))+geom_bar(aes(weight=Rating))
+```
+Question set 2
+
+#1.
