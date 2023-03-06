@@ -55,14 +55,16 @@ ggplot(data = choco[choco$Company.Location %in% c("U.S.A.", "France", "Canada"),
   facet_wrap(~Company.Location)
 ```
 ### What Company has the highest average rating when only looking at companies at with 10+ entries?
+
+Amedei has the highest average rating when only looking at companies at with 10+ entries. They are the only company with a rating of 5 which could be skewing their data. 
 ```{r}
-companies = table(choco$Company)
-greater10_companies = which(companies > 10)
-# ggplot(choco, aes(x = Rating, y = Company)) + aes(group=Company) + geom_boxplot()
+library(tidyverse)
+library(dplyr)
+companies = count(choco,"Company")
+companies_greater = filter(companies, freq > 10)
+choco1 = choco %>% filter(choco$Company %in% companies_greater$Company)
+ggplot(choco1, aes(x = reorder(Company,Rating, FUN = mean), y=Rating)) + geom_boxplot() + coord_flip()
 
-# selected_values <- choco$Company[choco$Company %in% names(freq_table)[indices_greater_than_10]]
 
-# Print the selected values
-companies
 ```
 
