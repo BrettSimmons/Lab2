@@ -1,11 +1,9 @@
 ---
 title: "Homework 5"
-author: "Nathan Catalano and Brett Simmons"
+authors: "Nathan Catalano and Brett Simmons"
 date: "2023-03-01"
 output: html_document
 ---
-
-Group Members: Nathan Catalano and Brett Simmons
 
 Github repository: https://github.com/BrettSimmons/Lab2
 
@@ -19,7 +17,9 @@ choco <- read.csv("https://ds202-at-isu.github.io/labs/data/choco.csv")
 head(choco)
 ```
 ## Question set 1
-###1 What is the overall number of chocolate bars rated?
+
+### 1 What is the overall number of chocolate bars rated?
+
 There are 1,852 chocolate bars rated
 ```{r}
 dim(choco)
@@ -32,12 +32,17 @@ dim(choco)
 library(ggplot2)
 ggplot(choco, aes(x=Review.Date))+geom_bar(aes(weight=Rating))
 ```
+
 ## Question set 2
 
 ### How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
 
+There are two outliers with a rating of 5. 
+
 ```{r}
+library(tidyverse)
 ggplot(choco, aes(x=Rating)) + geom_histogram(binwidth=.25)
+choco %>% count(Rating == 5.00)
 ```
 
 ### Do ratings depend on the cocoa percentage of a chocolate bar?
@@ -54,17 +59,29 @@ top3_locations
 ggplot(data = choco[choco$Company.Location %in% c("U.S.A.", "France", "Canada"), ], aes(x = Rating, y = Cocoa.Pct)) + aes(group=Cocoa.Pct) + geom_boxplot() + coord_flip() + 
   facet_wrap(~Company.Location)
 ```
+
+## Brett's Question
+
 ### What Company has the highest average rating when only looking at companies at with 10+ entries?
 
-Amedei has the highest average rating when only looking at companies at with 10+ entries. They are the only company with a rating of 5 which could be skewing their data. 
+Amedei has the highest average rating when only looking at companies at with 10+ entries. They are the only company with two ratings of 5 but even when removed they still have the highest average rating. 
 ```{r}
 library(tidyverse)
-library(dplyr)
-companies = count(choco,"Company")
-companies_greater = filter(companies, freq > 10)
+companies = choco %>% count(Company)
+companies_greater = filter(companies, n > 10)
 choco1 = choco %>% filter(choco$Company %in% companies_greater$Company)
+choco2 = choco1[!(choco1$Company=="Amedei" & choco1$Rating == 5.00),]
+
 ggplot(choco1, aes(x = reorder(Company,Rating, FUN = mean), y=Rating)) + geom_boxplot() + coord_flip()
 
+ggplot(choco2, aes(x = reorder(Company,Rating, FUN = mean), y=Rating)) + geom_boxplot() + coord_flip()
 
 ```
 
+## Nathan's question
+
+### How does the Cocoa percentage compare across countries?
+
+```{r}
+ggplot(choco,aes(x=Cocoa.Pct, y =Company.Location)) + geom_boxplot()
+```
