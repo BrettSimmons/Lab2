@@ -45,7 +45,7 @@ ggplot(choco, aes(x=Rating)) + geom_histogram(binwidth=.25)
 ggplot(choco,aes(x=Cocoa.Pct, y = Rating)) + aes(group=Cocoa.Pct) + geom_boxplot()
 ```
 
-###How do ratings compare across different company locations? Focus on the three locations with the most ratings:
+### How do ratings compare across different company locations? Focus on the three locations with the most ratings:
 ```{r}
 company_locations = table(choco$Company.Location)
 sorted_locations = sort(company_locations, decreasing = TRUE)
@@ -53,5 +53,16 @@ top3_locations = head(sorted_locations,3)
 top3_locations
 ggplot(data = choco[choco$Company.Location %in% c("U.S.A.", "France", "Canada"), ], aes(x = Rating, y = Cocoa.Pct)) + aes(group=Cocoa.Pct) + geom_boxplot() + coord_flip() + 
   facet_wrap(~Company.Location)
+```
+### What Company has the highest average rating when only looking at companies at with 10+ entries?
+```{r}
+companies = table(choco$Company)
+greater10_companies = which(companies > 10)
+# ggplot(choco, aes(x = Rating, y = Company)) + aes(group=Company) + geom_boxplot()
+
+# selected_values <- choco$Company[choco$Company %in% names(freq_table)[indices_greater_than_10]]
+
+# Print the selected values
+companies
 ```
 
